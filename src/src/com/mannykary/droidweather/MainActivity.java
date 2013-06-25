@@ -24,6 +24,7 @@ import com.mannykary.droidweather.R;
 import com.mannykary.droidweather.ParseWU.Conditions;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,9 +41,13 @@ public class MainActivity extends Activity {
 	
 	HttpClient client;
 	String currentConditions;
+	String query;
 	
 	public final static String baseURL = "http://api.wunderground.com/api/b40d28a40f580244/";
+	static final String CURRENT_QUERY = "currentQuery";
+	//static final String STATE_LEVEL = "playerLevel";
 
+	
 	Conditions cName;
 
 
@@ -51,17 +56,20 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_main);
-
-		Intent intent = getIntent();
-		String query;
-		
-		if ( intent.getStringExtra("com.droidweather.searchactivity.url") == null ) {
-			query = "/q/CA/San_Diego.json";
+		if (savedInstanceState != null ){
+			query = savedInstanceState.getString(CURRENT_QUERY);
 		}
 		else {
-			query = intent.getStringExtra("com.droidweather.searchactivity.url") + ".json";
-		}	
+			Intent intent = getIntent();
+			
+			if ( intent.getStringExtra("droidweather.searchactivity.url") == null ) {
+				query = "/q/CA/San_Diego.json";
+			}
+			else {
+				query = intent.getStringExtra("droidweather.searchactivity.url") + ".json";
+			}	
+		}
+		setContentView(R.layout.activity_main);
 		
 		Log.i(MainActivity.class.getName(), "query: " + query);
 		
@@ -153,6 +161,15 @@ public class MainActivity extends Activity {
 				
 	}
 
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+	    // Save the user's current game state
+	    savedInstanceState.putString(CURRENT_QUERY, query);
+	    
+	    // Always call the superclass so it can save the view hierarchy state
+	    super.onSaveInstanceState(savedInstanceState);
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

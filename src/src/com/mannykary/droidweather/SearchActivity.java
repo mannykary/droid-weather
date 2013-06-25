@@ -140,7 +140,7 @@ public class SearchActivity extends Activity {
 			        // Do something in response to the click		    	
 			    	//Log.i(SearchActivity.class.getName(), "query url: " + listURLs[position] );	    	
 			    	Intent intent = new Intent(SearchActivity.this, MainActivity.class);
-					intent.putExtra("com.droidweather.searchactivity.url", listURLs[position]);
+					intent.putExtra("droidweather.searchactivity.url", listURLs[position]);
 			    	startActivity(intent);
 			    	finish();
 			    }
