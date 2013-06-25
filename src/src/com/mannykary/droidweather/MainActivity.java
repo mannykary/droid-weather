@@ -1,129 +1,178 @@
-package com.example.droidweather;
+package com.mannykary.droidweather;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.concurrent.ExecutionException;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.mannykary.droidweather.R;
+import com.mannykary.droidweather.ParseWU.Conditions;
+
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
+public class MainActivity extends Activity {
 
-	public enum Conditions {
-		BLOWING_SNOW, BLUSTERY, CLEAR, CLOUDY, COLD, DEFAULT_WEATHER_ICON, DRIZZLE, DUST, FAIR, FOGGY, FREEZING_DRIZZLE, FREEZING_RAIN, HAIL, HAZE, HEAVY_SNOW, HOT, HURRICANE, ISOLATED_THUNDERSHOWERS, ISOLATED_THUNDERSTORMS, LIGHT_RAIN, LIGHT_SNOW_SHOWERS, MIXED_RAIN_AND_HAIL, MIXED_RAIN_AND_SLEET, MIXED_RAIN_AND_SNOW, MIXED_SNOW_AND_SLEET, MOSTLY_CLOUDY, NIGHT_BLOWING_SNOW, NIGHT_BLUSTERY, NIGHT_CLEAR, NIGHT_CLOUDY, NIGHT_COLD, NIGHT_DEFAULT_WEATHER_ICON, NIGHT_DRIZZLE, NIGHT_FAIR, NIGHT_FOGGY, NIGHT_FREEZING_DRIZZLE, NIGHT_FREEZING_RAIN, NIGHT_HAIL, NIGHT_HEAVY_SNOW, NIGHT_HURRICANE, NIGHT_ISOLATED_THUNDERSHOWERS, NIGHT_ISOLATED_THUNDERSTORMS, NIGHT_LIGHT_SNOW_SHOWERS, NIGHT_MIXED_RAIN_AND_HAIL, NIGHT_MIXED_RAIN_AND_SLEET, NIGHT_MIXED_RAIN_AND_SNOW, NIGHT_MIXED_SNOW_AND_SLEET, NIGHT_MOSTLY_CLOUDY, NIGHT_PARTLY_CLOUDY, NIGHT_PM_SHOWERS, NIGHT_SCATTERED_SHOWERS, NIGHT_SCATTERED_SNOW_SHOWERS, NIGHT_SCATTERED_THUNDERSTORMS, NIGHT_SEVERE_THUNDERSTORMS, NIGHT_SHOWERS, NIGHT_SLEET, NIGHT_SNOW_FLURRIES, NIGHT_SNOW_SHOWERS, NIGHT_SNOW, NIGHT_THUNDERSHOWERS, NIGHT_THUNDERSTORMS, NIGHT_TORNADO, NIGHT_TROPICAL_STORM, NIGHT_WINDY, PARTLY_CLOUDY, PM_SHOWERS, SCATTERED_SHOWERS, SCATTERED_SNOW_SHOWERS, SCATTERED_THUNDERSTORMS, SEVERE_THUNDERSTORMS, SHOWERS, SLEET, SMOKY, SNOW_FLURRIES, SNOW_SHOWERS, SNOW, SUNNY, THUNDERSHOWERS, THUNDERSTORMS, TORNADO, TROPICAL_STORM, WINDY
-	}
+	// TODO clean up UI
+	
+	HttpClient client;
+	String currentConditions;
 	
 	public final static String baseURL = "http://api.wunderground.com/api/b40d28a40f580244/";
-	
-	public boolean getDayNight(String j){
-		try {
-			JSONObject mainObject = new JSONObject(j);
-			
-			JSONObject moon_phase_obj = mainObject.getJSONObject("moon_phase");
-			JSONObject current_time_obj = moon_phase_obj.getJSONObject("current_time");
-			JSONObject sunrise_obj = moon_phase_obj.getJSONObject("sunrise");
-			JSONObject sunset_obj = moon_phase_obj.getJSONObject("sunset");
-			
-			int current_time_hour = current_time_obj.getInt("hour");
-			int current_time_min = current_time_obj.getInt("minute");
-			
-			int sunrise_hour = sunrise_obj.getInt("hour");
-			int sunrise_min = sunrise_obj.getInt("minute");
-			
-			int sunset_hour = sunset_obj.getInt("hour");
-			int sunset_min = sunset_obj.getInt("minute");
-			
-			boolean day;
-			
-			Log.i(MainActivity.class.getName(), "Time: " + current_time_hour + ":" + current_time_min );
-			Log.i(MainActivity.class.getName(), "Sunrise: " + sunrise_hour + ":" + sunrise_min );
-			Log.i(MainActivity.class.getName(), "Sunset: " + sunset_hour + ":" + sunset_min );
-			
-			if( current_time_hour > sunrise_hour && current_time_hour < sunset_hour ){
-				day = true;
-			} else if( current_time_hour == sunrise_hour && current_time_min > sunrise_min ){
-				day = true;
-			} else if( current_time_hour == sunset_hour && current_time_min < sunset_min ){
-				day = true;
-			} else{
-				day = false;
-			}
-			
-			return day;
-			
-		}
-		catch ( Exception e ) {
-			e.printStackTrace();
-			return false; // this may not be the best thing to return. will have to keep an eye on this. TODO
-		}
 
-	}
-	/*
-	public void parseConditions(String j) {
-		try {
-
-			JSONObject mainObject = new JSONObject(j);
-
-			// get Json current_observation object
-			JSONObject current_observation_obj = mainObject
-					.getJSONObject("current_observation");
-
-			// get Json display_location object
-			JSONObject display_location_obj = current_observation_obj
-					.getJSONObject("display_location");
-
-			// get Json observation_location object
-			JSONObject observation_location_obj = current_observation_obj
-					.getJSONObject("observation_location");
+	Conditions cName;
 
 
-			TextView conditionsText = (TextView) findViewById(R.id.currentConditions);
-			conditionsText.setText(current_observation_obj.getString("weather"));
 
-			TextView tempText = (TextView) findViewById(R.id.currentTemp);
-			tempText.setText(current_observation_obj.getString("temp_c") + "¼C");
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-			TextView humidityText = (TextView) findViewById(R.id.currentHumidity);
-			humidityText.setText("Humidity: "
-					+ current_observation_obj.getString("relative_humidity"));
+		setContentView(R.layout.activity_main);
 
-			TextView locationText = (TextView) findViewById(R.id.currentLocation);
-			locationText.setText(display_location_obj.getString("full"));
-
-			TextView UVText = (TextView) findViewById(R.id.UV);
-			UVText.setText("UV Index: " + current_observation_obj.getString("UV"));
-
-			TextView feelsLikeText = (TextView) findViewById(R.id.feelsLike);
-			feelsLikeText.setText("Feels Like: " + current_observation_obj
-					.getString("feelslike_c") + "¼C");
-
-			TextView windText = (TextView) findViewById(R.id.wind);
-			windText.setText("Wind: " + current_observation_obj.getString("wind_string"));
-
-			TextView observationTimeText = (TextView) findViewById(R.id.observationTime);
-			observationTimeText.setText(current_observation_obj
-					.getString("observation_time"));
-
-			TextView observationLocationText = (TextView) findViewById(R.id.observationLocation);
-			observationLocationText.setText(observation_location_obj
-					.getString("city"));
-
-			currentConditions = current_observation_obj.getString("weather");
+		Intent intent = getIntent();
+		String query;
 		
-
-		} catch (Exception e) {
+		if ( intent.getStringExtra("com.droidweather.searchactivity.url") == null ) {
+			query = "/q/CA/San_Diego.json";
+		}
+		else {
+			query = intent.getStringExtra("com.droidweather.searchactivity.url") + ".json";
+		}	
+		
+		Log.i(MainActivity.class.getName(), "query: " + query);
+		
+		//HashMap<String, String> textViews = new ParseWU().execute(query).get();
+		
+		
+		//String dataFeature = "conditions";
+		//String location = "CA/San_Diego.json";
+		String URLConditions = baseURL + "conditions" + query;
+		String URLAstronomy = baseURL + "astronomy" + query;
+		
+		//Log.i(MainActivity.class.getName(), "URL:" + URLConditions);
+		
+		String JSONRequestCond = null;
+		try {
+			JSONRequestCond = new JSONReaderTask().execute(URLConditions).get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		String JSONRequestAstronomy = null;
+		try {
+			JSONRequestAstronomy = new JSONReaderTask().execute(URLAstronomy).get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//String JSONRequestCond = JSONReaderTask.readJSONRequest(URLConditions);
+		//String JSONRequestAstronomy = JSONReaderTask.readJSONRequest(URLAstronomy);
+		
+		HashMap<String, String> data = null;
+		try {
+			data = new ParseWU().execute(JSONRequestCond, JSONRequestAstronomy).get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		//parseConditions(JSONRequestCond);
+		//boolean dayTime = getDayNight(JSONRequestAstronomy);
+					
+		//cName = getCondEnum(currentConditions, dayTime);
+				
+		//setCondition(cName);
+		
+		TextView conditionsText = (TextView) findViewById(R.id.currentConditions);
+		conditionsText.setText(data.get("conditions"));
+	
+		
+		TextView tempText = (TextView) findViewById(R.id.currentTemp);
+		tempText.setText(data.get("temp"));
+	
+		TextView humidityText = (TextView) findViewById(R.id.currentHumidity);
+		humidityText.setText(data.get("humidity"));
+		
+		TextView locationText = (TextView) findViewById(R.id.currentLocation);
+		locationText.setText(data.get("location"));
+		
+		TextView UVText = (TextView) findViewById(R.id.UV);
+		UVText.setText(data.get("UV"));
+
+		TextView feelsLikeText = (TextView) findViewById(R.id.feelsLike);
+		feelsLikeText.setText(data.get("feels_like"));
+		
+		TextView windText = (TextView) findViewById(R.id.wind);
+		windText.setText(data.get("wind"));
+					
+		TextView observationTimeText = (TextView) findViewById(R.id.observationTime);
+		observationTimeText.setText(data.get("observation_time"));
+		
+		TextView observationLocationText = (TextView) findViewById(R.id.observationLocation);
+		observationLocationText.setText(data.get("observation_location"));
+		
+	    ImageView iw = (ImageView) findViewById(R.id.currentGraphic);  
+	    int resID = getResources().getIdentifier(data.get("drawable"), "drawable",  getPackageName());
+	    iw.setImageResource(resID);
+				
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+	
+	public void searchLocation(View view) {
+		Intent intent = new Intent(this, SearchActivity.class);
+		startActivity(intent);
+		finish(); // might not be the best thing to do since we would not be able to return from search activity.
 
 	}
-	*/
-	public Conditions getCondEnum(String s, String b){
+
+
+/*
+	public Conditions getCondEnum(String s, boolean b){
 		
 		Conditions c;
-		if(b.equals("day")){		
-			
+		if(b){		
 			if( s.contains("Blowing Snow") || s.contains("Low Drifting Snow") ){
 				c = Conditions.BLOWING_SNOW;
 			}
@@ -211,7 +260,7 @@ public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 			else{
 				c = Conditions.DEFAULT_WEATHER_ICON;
 			}
-		} else if (b.equals("night")){
+		} else{
 			if( s.contains("Blowing Snow") || s.contains("Low Drifting Snow") ){
 				c = Conditions.NIGHT_BLOWING_SNOW;
 			}
@@ -299,14 +348,12 @@ public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 			else{
 				c = Conditions.NIGHT_DEFAULT_WEATHER_ICON;
 			}
-		} else {
-			c = Conditions.DEFAULT_WEATHER_ICON;
 		}
 			
 		return c;
 	}
 	
-	public String setCondition(Conditions c) {
+	public void setCondition(Conditions c) {
 		
 		String drawableName = null;
 		
@@ -562,124 +609,41 @@ public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 				drawableName = "default_weather_icon";
 		}
 		
-	    return drawableName;
+	    ImageView iw = (ImageView) findViewById(R.id.currentGraphic);  
+	    int resID = getResources().getIdentifier(drawableName, "drawable",  getPackageName());
+	    iw.setImageResource(resID);
 	}
-
-	@Override
-	protected HashMap<String, String> doInBackground(String... params) {
-		//String URLConditions = baseURL + "conditions" + params[0];
-		//String URLAstronomy = baseURL + "astronomy" + params[0];
-		HashMap<String, String> data = new HashMap<String, String>();
-
+*/
+	
+/*
+	public String readJSONRequest(String url) {
+		StringBuilder builder = new StringBuilder();
+		HttpClient client = new DefaultHttpClient();
+		HttpGet httpGet = new HttpGet(url);
 		try {
-			
-			JSONObject mainObject = new JSONObject(params[0]);
+			HttpResponse response = client.execute(httpGet);
+			StatusLine statusLine = response.getStatusLine();
+			int statusCode = statusLine.getStatusCode();
+			if (statusCode == 200) {
+				HttpEntity entity = response.getEntity();
+				InputStream content = entity.getContent();
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(content));
+				String line;
 
-			// get Json current_observation object
-			JSONObject current_observation_obj = mainObject
-					.getJSONObject("current_observation");
-
-			// get Json display_location object
-			JSONObject display_location_obj = current_observation_obj
-					.getJSONObject("display_location");
-
-			// get Json observation_location object
-			JSONObject observation_location_obj = current_observation_obj
-					.getJSONObject("observation_location");
-			
-			//TextView conditionsText = (TextView) findViewById(R.id.currentConditions);
-			//conditionsText.setText(current_observation_obj.getString("weather"));
-
-			data.put("conditions", current_observation_obj.getString("weather"));			
-			
-			//TextView tempText = (TextView) findViewById(R.id.currentTemp);
-			//tempText.setText(current_observation_obj.getString("temp_c") + "¼C");
-			
-			data.put("temp", current_observation_obj.getString("temp_c") + "¼C");			
-
-			//TextView humidityText = (TextView) findViewById(R.id.currentHumidity);
-			//humidityText.setText("Humidity: " + current_observation_obj.getString("relative_humidity"));
-
-			data.put("humidity", "Humidity: " + current_observation_obj.getString("relative_humidity"));
-			
-			//TextView locationText = (TextView) findViewById(R.id.currentLocation);
-			//locationText.setText(display_location_obj.getString("full"));
-
-			data.put("location", display_location_obj.getString("full"));
-			
-			//TextView UVText = (TextView) findViewById(R.id.UV);
-			//UVText.setText("UV Index: " + current_observation_obj.getString("UV"));
-
-			data.put("UV", "UV Index: " + current_observation_obj.getString("UV"));
-			
-			
-			//TextView feelsLikeText = (TextView) findViewById(R.id.feelsLike);
-			//feelsLikeText.setText("Feels Like: " + current_observation_obj.getString("feelslike_c") + "¼C");
-
-			data.put("feels_like", "Feels Like: " + current_observation_obj.getString("feelslike_c") + "¼C");
-			
-			//TextView windText = (TextView) findViewById(R.id.wind);
-			//windText.setText("Wind: " + current_observation_obj.getString("wind_string"));
-
-			data.put("wind", "Wind: " + current_observation_obj.getString("wind_string"));
-						
-			//TextView observationTimeText = (TextView) findViewById(R.id.observationTime);
-			//observationTimeText.setText(current_observation_obj.getString("observation_time"));
-
-			data.put("observation_time", current_observation_obj.getString("observation_time"));
-			
-			//TextView observationLocationText = (TextView) findViewById(R.id.observationLocation);
-			//observationLocationText.setText(observation_location_obj.getString("city"));
-
-			data.put("observation_location", observation_location_obj.getString("city"));
-			
-			//currentConditions = current_observation_obj.getString("weather");
-			
-			JSONObject astObject = new JSONObject(params[1]);
-			
-			JSONObject moon_phase_obj = astObject.getJSONObject("moon_phase");
-			JSONObject current_time_obj = moon_phase_obj.getJSONObject("current_time");
-			JSONObject sunrise_obj = moon_phase_obj.getJSONObject("sunrise");
-			JSONObject sunset_obj = moon_phase_obj.getJSONObject("sunset");
-			
-			int current_time_hour = current_time_obj.getInt("hour");
-			int current_time_min = current_time_obj.getInt("minute");
-			
-			int sunrise_hour = sunrise_obj.getInt("hour");
-			int sunrise_min = sunrise_obj.getInt("minute");
-			
-			int sunset_hour = sunset_obj.getInt("hour");
-			int sunset_min = sunset_obj.getInt("minute");
-			
-			String dayNight;
-			
-			Log.i(MainActivity.class.getName(), "Time: " + current_time_hour + ":" + current_time_min );
-			Log.i(MainActivity.class.getName(), "Sunrise: " + sunrise_hour + ":" + sunrise_min );
-			Log.i(MainActivity.class.getName(), "Sunset: " + sunset_hour + ":" + sunset_min );
-			
-			if( current_time_hour > sunrise_hour && current_time_hour < sunset_hour ){
-				dayNight = "day";
-			} else if( current_time_hour == sunrise_hour && current_time_min > sunrise_min ){
-				dayNight = "day";
-			} else if( current_time_hour == sunset_hour && current_time_min < sunset_min ){
-				dayNight = "day";			
-			} else{
-				dayNight = "night";
+				while ((line = reader.readLine()) != null) {
+					builder.append(line);
+				}
+			} else {
+				Log.e(MainActivity.class.toString(), "Failed to download file");
 			}
-			
-			data.put("day_night", dayNight);
-			
-			Conditions cName = getCondEnum(current_observation_obj.getString("weather"), dayNight);
-		
-			String drawable = setCondition(cName);
-			
-			data.put("drawable", drawable);
-		
-		} catch (Exception e) {
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			
-		
-		return data;
+		// Log.i(MainActivity.class.getName(), builder.toString());
+		return builder.toString();
 	}
+*/
 }

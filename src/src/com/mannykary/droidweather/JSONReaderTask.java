@@ -1,4 +1,4 @@
-package com.example.droidweather;
+package com.mannykary.droidweather;
 
 import java.io.BufferedReader;
 import java.io.IOException;

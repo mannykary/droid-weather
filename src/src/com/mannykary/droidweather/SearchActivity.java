@@ -1,4 +1,4 @@
-package com.example.droidweather;
+package com.mannykary.droidweather;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,6 +40,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
+import com.mannykary.droidweather.R;
 
 public class SearchActivity extends Activity {
 

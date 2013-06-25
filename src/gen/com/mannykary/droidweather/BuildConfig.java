@@ -1,5 +1,5 @@
 /** Automatically generated file. DO NOT MODIFY */
-package com.example.droidweather;
+package com.mannykary.droidweather;
 
 public final class BuildConfig {
     public final static boolean DEBUG = true;
