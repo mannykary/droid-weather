@@ -596,7 +596,9 @@ public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 			//TextView tempText = (TextView) findViewById(R.id.currentTemp);
 			//tempText.setText(current_observation_obj.getString("temp_c") + "¼C");
 			
-			data.put("temp", current_observation_obj.getString("temp_c") + "¼C");			
+			data.put("temp", current_observation_obj.getString("temp_c") + "¼C");
+			
+			data.put("temp_f", current_observation_obj.getString("temp_f") + "¼F");
 
 			//TextView humidityText = (TextView) findViewById(R.id.currentHumidity);
 			//humidityText.setText("Humidity: " + current_observation_obj.getString("relative_humidity"));
@@ -619,11 +621,17 @@ public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 
 			data.put("feels_like", "Feels Like: " + current_observation_obj.getString("feelslike_c") + "¼C");
 			
+			data.put("feels_like_f", "Feels Like: " + current_observation_obj.getString("feelslike_f") + "¼F");
+			
 			//TextView windText = (TextView) findViewById(R.id.wind);
 			//windText.setText("Wind: " + current_observation_obj.getString("wind_string"));
 
 			data.put("wind", "Wind: " + current_observation_obj.getString("wind_kph") + " km/h " 
-									  + current_observation_obj.getString("wind_dir") ); // TODO incorporate US units of ¼F and mph as an option.
+									  + current_observation_obj.getString("wind_dir") );
+			
+			data.put("wind_mph", "Wind: " + current_observation_obj.getString("wind_mph") + " mph " 
+					  					  + current_observation_obj.getString("wind_dir") );
+
 						
 			//TextView observationTimeText = (TextView) findViewById(R.id.observationTime);
 			//observationTimeText.setText(current_observation_obj.getString("observation_time"));
