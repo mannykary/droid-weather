@@ -1,39 +1,20 @@
 package com.mannykary.droidweather;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.concurrent.ExecutionException;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.mannykary.droidweather.R;
 import com.mannykary.droidweather.ParseWU.Conditions;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -44,6 +25,7 @@ public class MainActivity extends Activity {
 	String query;
 	
 	public final static String baseURL = "http://api.wunderground.com/api/b40d28a40f580244/";
+	
 	static final String CURRENT_QUERY = "currentQuery";
 	//static final String STATE_LEVEL = "playerLevel";
 

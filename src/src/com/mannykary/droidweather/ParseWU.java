@@ -6,8 +6,6 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 
@@ -621,7 +619,8 @@ public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 			//TextView windText = (TextView) findViewById(R.id.wind);
 			//windText.setText("Wind: " + current_observation_obj.getString("wind_string"));
 
-			data.put("wind", "Wind: " + current_observation_obj.getString("wind_string"));
+			data.put("wind", "Wind: " + current_observation_obj.getString("wind_kph") + " km/h " 
+									  + current_observation_obj.getString("wind_dir") ); // TODO incorporate US units of ¼F and mph as an option.
 						
 			//TextView observationTimeText = (TextView) findViewById(R.id.observationTime);
 			//observationTimeText.setText(current_observation_obj.getString("observation_time"));

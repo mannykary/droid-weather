@@ -7,48 +7,25 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
-
-    <ImageView
-        android:id="@+id/currentGraphic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_launcher" /> <!-- Change this graphic -->
-
-    <TextView
-        android:id="@+id/currentConditions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/currentGraphic"
-        android:layout_centerHorizontal="true"
-        android:text="Current Conditions"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/currentTemp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/currentConditions"
-        android:layout_centerHorizontal="true"
-        android:text="Current Temperature"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+ <!-- Change this graphic -->
 
     <TextView
         android:id="@+id/currentHumidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/currentTemp"
-        android:layout_centerHorizontal="true"
-        android:text="Current Humidity"
+        android:layout_below="@+id/wind"
+        android:layout_alignParentLeft="true"
+        android:textSize="12sp"
+        android:text="Humidity"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/currentLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/currentHumidity"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:textSize="20sp"
         android:text="Current Location"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -56,8 +33,9 @@
         android:id="@+id/UV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/currentLocation"
-        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/currentHumidity"
+        android:layout_alignParentLeft="true"
+        android:textSize="12sp"
         android:text="UV Index"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -65,8 +43,9 @@
         android:id="@+id/feelsLike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/UV"
-        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/currentConditions"
+        android:layout_alignParentLeft="true"
+        android:textSize="12sp"
         android:text="Feels Like"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -75,7 +54,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/feelsLike"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
+        android:textSize="12sp"
         android:text="Wind"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -83,8 +63,9 @@
         android:id="@+id/observationLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/wind"
+        android:layout_below="@+id/currentLocation"
         android:layout_centerHorizontal="true"
+        android:textSize="12sp"
         android:text="Observation Location"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -94,6 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/observationLocation"
         android:layout_centerHorizontal="true"
+        android:textSize="12sp"
         android:text="Observation Time"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -103,8 +85,44 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="72dp"
         android:text="Search"
         android:onClick="searchLocation" />
+
+
+    <TextView
+        android:id="@+id/currentTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/observationTime"
+        android:text="22ºC"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="50dp" />
+
+    <FrameLayout
+        android:id="@+id/currentGraphicLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/currentTemp"
+        android:layout_below="@+id/observationTime"
+        android:layout_alignBottom="@+id/UV">
+
+        <ImageView
+            android:id="@+id/currentGraphic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launcher" />
+       
+    </FrameLayout>
+    
+    <TextView
+        android:id="@+id/currentConditions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/currentTemp"
+        android:text="Current Conditions"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20sp" />
 
 </RelativeLayout>
