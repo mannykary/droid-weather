@@ -2,6 +2,7 @@ package com.mannykary.droidweather;
 
 import java.util.HashMap;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.os.AsyncTask;
@@ -571,6 +572,8 @@ public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 
 		try {
 			
+			// extract current conditions
+			
 			JSONObject mainObject = new JSONObject(params[0]);
 
 			// get Json current_observation object
@@ -634,6 +637,8 @@ public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 			
 			//currentConditions = current_observation_obj.getString("weather");
 			
+			// extract sunrise/sunset information
+			
 			JSONObject astObject = new JSONObject(params[1]);
 			
 			JSONObject moon_phase_obj = astObject.getJSONObject("moon_phase");
@@ -652,9 +657,9 @@ public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 			
 			String dayNight;
 			
-			Log.i(MainActivity.class.getName(), "Time: " + current_time_hour + ":" + current_time_min );
-			Log.i(MainActivity.class.getName(), "Sunrise: " + sunrise_hour + ":" + sunrise_min );
-			Log.i(MainActivity.class.getName(), "Sunset: " + sunset_hour + ":" + sunset_min );
+			Log.i(ParseWU.class.getName(), "Time: " + current_time_hour + ":" + current_time_min );
+			Log.i(ParseWU.class.getName(), "Sunrise: " + sunrise_hour + ":" + sunrise_min );
+			Log.i(ParseWU.class.getName(), "Sunset: " + sunset_hour + ":" + sunset_min );
 			
 			if( current_time_hour > sunrise_hour && current_time_hour < sunset_hour ){
 				dayNight = "day";
@@ -670,9 +675,42 @@ public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 			
 			Conditions cName = getCondEnum(current_observation_obj.getString("weather"), dayNight);
 		
+			// set the weather graphic
+			
 			String drawable = setCondition(cName);
 			
 			data.put("drawable", drawable);
+			
+			
+			// extract forecast information
+			JSONObject forecast10DayObject = new JSONObject(params[2]);
+			
+			JSONObject forecast_obj = forecast10DayObject.getJSONObject("forecast");
+			JSONObject simpleforecast_obj = forecast_obj.getJSONObject("simpleforecast");
+			JSONArray forecastday_arr = simpleforecast_obj.getJSONArray("forecastday");
+			
+			// change i depending of number of days in forecast.
+			for( int i = 0; i < 5; i++ ){
+				int j = i + 1;
+				data.put("day" + j + "_high_c" , forecastday_arr.getJSONObject(i).getJSONObject("high").getString("celsius"));
+				data.put("day" + j + "_low_c" , forecastday_arr.getJSONObject(i).getJSONObject("low").getString("celsius"));
+				data.put("day" + j + "_high_f" , forecastday_arr.getJSONObject(i).getJSONObject("high").getString("fahrenheit"));
+				data.put("day" + j + "_low_f" , forecastday_arr.getJSONObject(i).getJSONObject("low").getString("fahrenheit"));
+				data.put("day" + j + "_name", forecastday_arr.getJSONObject(i).getJSONObject("date").getString("weekday_short"));
+				
+				Conditions dayCond = getCondEnum(forecastday_arr.getJSONObject(i).getString("conditions"), "day");
+							
+				data.put("day" + j + "_cond", setCondition(dayCond));
+				
+				Log.i(ParseWU.class.getName(), "day" + j + "_high_c: " + forecastday_arr.getJSONObject(i).getJSONObject("high").getString("celsius") );
+				Log.i(ParseWU.class.getName(), "day" + j + "_low_c: " + forecastday_arr.getJSONObject(i).getJSONObject("low").getString("celsius") );
+				Log.i(ParseWU.class.getName(), "day" + j + "_high_f: " + forecastday_arr.getJSONObject(i).getJSONObject("high").getString("fahrenheit") );
+				Log.i(ParseWU.class.getName(), "day" + j + "_low_f: " + forecastday_arr.getJSONObject(i).getJSONObject("low").getString("fahrenheit") );
+				Log.i(ParseWU.class.getName(), "day" + j + "_name: " + forecastday_arr.getJSONObject(i).getJSONObject("date").getString("weekday_short") );
+				Log.i(ParseWU.class.getName(), "day" + j + "_cond: " + forecastday_arr.getJSONObject(i).getString("conditions"));
+				
+			}
+			
 		
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -7,17 +7,18 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
- <!-- Change this graphic -->
+
+    <!-- Change this graphic -->
 
     <TextView
         android:id="@+id/currentHumidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/wind"
         android:layout_alignParentLeft="true"
-        android:textSize="12sp"
+        android:layout_below="@+id/wind"
         android:text="Humidity"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/currentLocation"
@@ -25,39 +26,39 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textSize="20sp"
         android:text="Current Location"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/UV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/currentHumidity"
         android:layout_alignParentLeft="true"
-        android:textSize="12sp"
+        android:layout_below="@+id/currentHumidity"
         android:text="UV Index"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/feelsLike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/currentConditions"
         android:layout_alignParentLeft="true"
-        android:textSize="12sp"
+        android:layout_below="@+id/currentConditions"
         android:text="Feels Like"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/wind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/feelsLike"
         android:layout_alignParentLeft="true"
-        android:textSize="12sp"
+        android:layout_below="@+id/feelsLike"
         android:text="Wind"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/observationLocation"
@@ -65,9 +66,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/currentLocation"
         android:layout_centerHorizontal="true"
-        android:textSize="12sp"
         android:text="Observation Location"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/observationTime"
@@ -75,19 +76,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/observationLocation"
         android:layout_centerHorizontal="true"
-        android:textSize="12sp"
         android:text="Observation Time"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <Button
-        android:id="@+id/btnSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:text="Search"
-        android:onClick="searchLocation" />
-
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/currentTemp"
@@ -103,18 +94,17 @@
         android:id="@+id/currentGraphicLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/currentTemp"
+        android:layout_alignBottom="@+id/UV"
         android:layout_below="@+id/observationTime"
-        android:layout_alignBottom="@+id/UV">
+        android:layout_toRightOf="@+id/currentTemp" >
 
         <ImageView
             android:id="@+id/currentGraphic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/ic_launcher" />
-       
     </FrameLayout>
-    
+
     <TextView
         android:id="@+id/currentConditions"
         android:layout_width="wrap_content"
@@ -124,5 +114,233 @@
         android:text="Current Conditions"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="20sp" />
+
+    <LinearLayout
+        android:id="@+id/forecastLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/UV"
+        android:baselineAligned="false" >
+
+        <RelativeLayout
+            android:id="@+id/forecastDay1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/forecastDay1Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="Mon"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/forecastDay1Graphic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay1Name"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/forecastDay1High"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay1Graphic"
+                android:layout_centerHorizontal="true"
+                android:text="22ºC"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/forecastDay1Low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay1High"
+                android:layout_centerHorizontal="true"
+                android:text="15ºC"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/forecastDay2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/forecastDay2Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="Tue"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/forecastDay2Graphic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay2Name"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/forecastDay2High"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay2Graphic"
+                android:layout_centerHorizontal="true"
+                android:text="22ºC"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/forecastDay2Low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay2High"
+                android:layout_centerHorizontal="true"
+                android:text="15ºC"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/forecastDay3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/forecastDay3Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="Wed"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/forecastDay3Graphic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay3Name"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/forecastDay3High"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay3Graphic"
+                android:layout_centerHorizontal="true"
+                android:text="22ºC"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/forecastDay3Low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay3High"
+                android:layout_centerHorizontal="true"
+                android:text="15ºC"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/forecastDay4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/forecastDay4Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="Thu"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/forecastDay4Graphic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay4Name"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/forecastDay4High"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay4Graphic"
+                android:layout_centerHorizontal="true"
+                android:text="22ºC"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/forecastDay4Low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay4High"
+                android:layout_centerHorizontal="true"
+                android:text="15ºC"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/forecastDay5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/forecastDay5Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="Fri"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/forecastDay5Graphic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay5Name"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/forecastDay5High"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay5Graphic"
+                android:layout_centerHorizontal="true"
+                android:text="22ºC"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/forecastDay5Low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay5High"
+                android:layout_centerHorizontal="true"
+                android:text="15ºC"
+                android:textSize="12sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:onClick="searchLocation"
+        android:text="Search" />
 
 </RelativeLayout>
