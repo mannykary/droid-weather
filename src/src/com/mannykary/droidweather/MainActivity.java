@@ -29,7 +29,6 @@ public class MainActivity extends Activity {
 	public static final String API_KEY = "b40d28a40f580244";
 	public static final String PREFS_NAME = "MyPrefsFile";
 
-
 	static final String CURRENT_QUERY = "currentQuery";
 	static final String CURRENT_UNITS = "currentUnits";
 
@@ -44,27 +43,33 @@ public class MainActivity extends Activity {
 			query = savedInstanceState.getString(CURRENT_QUERY);
 			units = savedInstanceState.getString(CURRENT_UNITS);
 		} else {
-			
+
 			SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-			
+
 			Intent intent = getIntent();
 
 			if (intent.getStringExtra("droidweather.searchactivity.url") != null) {
-				query = intent.getStringExtra("droidweather.searchactivity.url") + ".json";
+				query = intent
+						.getStringExtra("droidweather.searchactivity.url")
+						+ ".json";
 			} else {
-				query = settings.getString(CURRENT_QUERY, "/q/CA/San_Diego.json" );
+				query = settings.getString(CURRENT_QUERY,
+						"/q/CA/San_Diego.json");
 			}
-			
-			units = settings.getString(CURRENT_UNITS, "metric" );
+
+			units = settings.getString(CURRENT_UNITS, "metric");
 		}
-		
+
 		setContentView(R.layout.activity_main);
 
 		Log.i(MainActivity.class.getName(), "query: " + query);
 
-		String URLConditions = "http://api.wunderground.com/api/" + API_KEY + "/conditions" + query;
-		String URLAstronomy = "http://api.wunderground.com/api/" + API_KEY + "/astronomy" + query;
-		String URLForecast = "http://api.wunderground.com/api/" + API_KEY + "/forecast10day" + query;
+		String URLConditions = "http://api.wunderground.com/api/" + API_KEY
+				+ "/conditions" + query;
+		String URLAstronomy = "http://api.wunderground.com/api/" + API_KEY
+				+ "/astronomy" + query;
+		String URLForecast = "http://api.wunderground.com/api/" + API_KEY
+				+ "/forecast10day" + query;
 
 		String JSONRequestCond = null;
 		try {
@@ -278,6 +283,46 @@ public class MainActivity extends Activity {
 			day4Low.setText(data.get("day4_low_c"));
 			day5Low.setText(data.get("day5_low_c"));
 		}
+
+		// set day P.O.P. (only if greater than minPOP)
+		TextView day1POP = (TextView) findViewById(R.id.forecastDay1POP);
+		TextView day2POP = (TextView) findViewById(R.id.forecastDay2POP);
+		TextView day3POP = (TextView) findViewById(R.id.forecastDay3POP);
+		TextView day4POP = (TextView) findViewById(R.id.forecastDay4POP);
+		TextView day5POP = (TextView) findViewById(R.id.forecastDay5POP);
+		
+		int minPOP = 25;
+		
+		if ( Integer.parseInt(data.get("day1_pop")) > minPOP ){
+			day1POP.setText("POP: " + data.get("day1_pop") + "%");
+		} else {
+			day1POP.setText("");
+		}
+				
+		if ( Integer.parseInt(data.get("day2_pop")) > minPOP ){
+			day2POP.setText("POP: " + data.get("day2_pop") + "%");
+		} else {
+			day2POP.setText("");
+		}
+		
+		if ( Integer.parseInt(data.get("day3_pop")) > minPOP ){
+			day3POP.setText("POP: " + data.get("day3_pop") + "%");
+		} else {
+			day3POP.setText("");
+		}
+		
+		if ( Integer.parseInt(data.get("day4_pop")) > minPOP ){
+			day4POP.setText("POP: " + data.get("day4_pop") + "%");
+		} else {
+			day4POP.setText("");
+		}
+		
+		if ( Integer.parseInt(data.get("day5_pop")) > minPOP ){
+			day5POP.setText("POP: " + data.get("day5_pop") + "%");
+		} else {
+			day5POP.setText("");
+		}
+		
 
 		// set day condition graphic
 		ImageView day1Cond = (ImageView) findViewById(R.id.forecastDay1Graphic);

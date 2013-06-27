@@ -86,11 +86,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/observationTime"
+        android:clickable="true"
+        android:onClick="toggleUnits"
         android:text="22ºC"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="50dp"
-        android:onClick="toggleUnits"
-        android:clickable="true" />
+        android:textSize="50dp" />
 
     <FrameLayout
         android:id="@+id/currentGraphicLayout"
@@ -165,6 +165,15 @@
                 android:layout_centerHorizontal="true"
                 android:text="15ºC"
                 android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/forecastDay1POP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay1Low"
+                android:layout_centerHorizontal="true"
+                android:text="POP: 0%"
+                android:textSize="12sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -206,6 +215,15 @@
                 android:layout_below="@+id/forecastDay2High"
                 android:layout_centerHorizontal="true"
                 android:text="15ºC"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/forecastDay2POP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay2Low"
+                android:layout_centerHorizontal="true"
+                android:text="POP: 0%"
                 android:textSize="12sp" />
         </RelativeLayout>
 
@@ -249,6 +267,15 @@
                 android:layout_centerHorizontal="true"
                 android:text="15ºC"
                 android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/forecastDay3POP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay3Low"
+                android:layout_centerHorizontal="true"
+                android:text="POP: 0%"
+                android:textSize="12sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -291,6 +318,15 @@
                 android:layout_centerHorizontal="true"
                 android:text="15ºC"
                 android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/forecastDay4POP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay4Low"
+                android:layout_centerHorizontal="true"
+                android:text="POP: 0%"
+                android:textSize="12sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -332,6 +368,15 @@
                 android:layout_below="@+id/forecastDay5High"
                 android:layout_centerHorizontal="true"
                 android:text="15ºC"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/forecastDay5POP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecastDay5Low"
+                android:layout_centerHorizontal="true"
+                android:text="POP: 0%"
                 android:textSize="12sp" />
         </RelativeLayout>
     </LinearLayout>

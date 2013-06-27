@@ -705,6 +705,7 @@ public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 				data.put("day" + j + "_high_f" , forecastday_arr.getJSONObject(i).getJSONObject("high").getString("fahrenheit"));
 				data.put("day" + j + "_low_f" , forecastday_arr.getJSONObject(i).getJSONObject("low").getString("fahrenheit"));
 				data.put("day" + j + "_name", forecastday_arr.getJSONObject(i).getJSONObject("date").getString("weekday_short"));
+				data.put("day" + j + "_pop", forecastday_arr.getJSONObject(i).getString("pop"));
 				
 				Conditions dayCond = getCondEnum(forecastday_arr.getJSONObject(i).getString("conditions"), "day");
 							
@@ -716,7 +717,7 @@ public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 				Log.i(ParseWU.class.getName(), "day" + j + "_low_f: " + forecastday_arr.getJSONObject(i).getJSONObject("low").getString("fahrenheit") );
 				Log.i(ParseWU.class.getName(), "day" + j + "_name: " + forecastday_arr.getJSONObject(i).getJSONObject("date").getString("weekday_short") );
 				Log.i(ParseWU.class.getName(), "day" + j + "_cond: " + forecastday_arr.getJSONObject(i).getString("conditions"));
-				
+				Log.i(ParseWU.class.getName(), "day" + j + "_pop: " + forecastday_arr.getJSONObject(i).getString("pop"));
 			}
 			
 		
