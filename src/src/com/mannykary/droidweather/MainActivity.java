@@ -248,58 +248,76 @@ public class MainActivity extends Activity {
 
 	public void displayForecast() {
 
-		// set day name headers
+		// set text views
 		TextView day1Name = (TextView) findViewById(R.id.forecastDay1Name);
-		day1Name.setText(data.get("day1_name"));
-
 		TextView day2Name = (TextView) findViewById(R.id.forecastDay2Name);
-		day2Name.setText(data.get("day2_name"));
-
 		TextView day3Name = (TextView) findViewById(R.id.forecastDay3Name);
-		day3Name.setText(data.get("day3_name"));
-
 		TextView day4Name = (TextView) findViewById(R.id.forecastDay4Name);
-		day4Name.setText(data.get("day4_name"));
-
 		TextView day5Name = (TextView) findViewById(R.id.forecastDay5Name);
-		day5Name.setText(data.get("day5_name"));
-
-		// set day highs
+		
 		TextView day1High = (TextView) findViewById(R.id.forecastDay1High);
 		TextView day2High = (TextView) findViewById(R.id.forecastDay2High);
 		TextView day3High = (TextView) findViewById(R.id.forecastDay3High);
 		TextView day4High = (TextView) findViewById(R.id.forecastDay4High);
 		TextView day5High = (TextView) findViewById(R.id.forecastDay5High);
 
-		// set day low
 		TextView day1Low = (TextView) findViewById(R.id.forecastDay1Low);
 		TextView day2Low = (TextView) findViewById(R.id.forecastDay2Low);
 		TextView day3Low = (TextView) findViewById(R.id.forecastDay3Low);
 		TextView day4Low = (TextView) findViewById(R.id.forecastDay4Low);
 		TextView day5Low = (TextView) findViewById(R.id.forecastDay5Low);
+		
+		int current_hour = Integer.parseInt(data.get("current_time_hour"));
+		int current_min = Integer.parseInt(data.get("current_time_min"));
+		
+		String day1, day2, day3, day4, day5;
+		
+		if( current_hour > 18 ){
+			day1 = "day2";
+			day2 = "day3";
+			day3 = "day4";
+			day4 = "day5";
+			day5 = "day6";
+		}
+		else {
+			day1 = "day1";
+			day2 = "day2";
+			day3 = "day3";
+			day4 = "day4";
+			day5 = "day5";
+		}
+		
+		day1Name.setText(data.get(day1 + "_name"));
+		day2Name.setText(data.get(day2 + "_name"));		
+		day3Name.setText(data.get(day3 + "_name"));		
+		day4Name.setText(data.get(day4 + "_name"));		
+		day5Name.setText(data.get(day5 + "_name"));
+
+		
+
 
 		if (units.equals("US")) {
-			day1High.setText(data.get("day1_high_f"));
-			day2High.setText(data.get("day2_high_f"));
-			day3High.setText(data.get("day3_high_f"));
-			day4High.setText(data.get("day4_high_f"));
-			day5High.setText(data.get("day5_high_f"));
-			day1Low.setText(data.get("day1_low_f"));
-			day2Low.setText(data.get("day2_low_f"));
-			day3Low.setText(data.get("day3_low_f"));
-			day4Low.setText(data.get("day4_low_f"));
-			day5Low.setText(data.get("day5_low_f"));
+			day1High.setText(data.get(day1 + "_high_f"));
+			day2High.setText(data.get(day2 + "_high_f"));
+			day3High.setText(data.get(day3 + "_high_f"));
+			day4High.setText(data.get(day4 + "_high_f"));
+			day5High.setText(data.get(day5+ "_high_f"));
+			day1Low.setText(data.get(day1 + "_low_f"));
+			day2Low.setText(data.get(day2 + "_low_f"));
+			day3Low.setText(data.get(day3 + "_low_f"));
+			day4Low.setText(data.get(day4 + "_low_f"));
+			day5Low.setText(data.get(day5 + "_low_f"));
 		} else {
-			day1High.setText(data.get("day1_high_c"));
-			day2High.setText(data.get("day2_high_c"));
-			day3High.setText(data.get("day3_high_c"));
-			day4High.setText(data.get("day4_high_c"));
-			day5High.setText(data.get("day5_high_c"));
-			day1Low.setText(data.get("day1_low_c"));
-			day2Low.setText(data.get("day2_low_c"));
-			day3Low.setText(data.get("day3_low_c"));
-			day4Low.setText(data.get("day4_low_c"));
-			day5Low.setText(data.get("day5_low_c"));
+			day1High.setText(data.get(day1 + "_high_c"));
+			day2High.setText(data.get(day2 + "_high_c"));
+			day3High.setText(data.get(day3 + "_high_c"));
+			day4High.setText(data.get(day4 + "_high_c"));
+			day5High.setText(data.get(day5 + "_high_c"));
+			day1Low.setText(data.get(day1 + "_low_c"));
+			day2Low.setText(data.get(day2 + "_low_c"));
+			day3Low.setText(data.get(day3 + "_low_c"));
+			day4Low.setText(data.get(day4 + "_low_c"));
+			day5Low.setText(data.get(day5 + "_low_c"));
 		}
 
 		// set day P.O.P. (only if greater than minPOP)
@@ -311,32 +329,32 @@ public class MainActivity extends Activity {
 		
 		int minPOP = 25;
 		
-		if ( Integer.parseInt(data.get("day1_pop")) > minPOP ){
-			day1POP.setText("POP: " + data.get("day1_pop") + "%");
+		if ( Integer.parseInt(data.get(day1 + "_pop")) > minPOP ){
+			day1POP.setText("POP: " + data.get(day1 + "_pop") + "%");
 		} else {
 			day1POP.setText("");
 		}
 				
-		if ( Integer.parseInt(data.get("day2_pop")) > minPOP ){
-			day2POP.setText("POP: " + data.get("day2_pop") + "%");
+		if ( Integer.parseInt(data.get(day2 + "_pop")) > minPOP ){
+			day2POP.setText("POP: " + data.get(day2 + "_pop") + "%");
 		} else {
 			day2POP.setText("");
 		}
 		
-		if ( Integer.parseInt(data.get("day3_pop")) > minPOP ){
-			day3POP.setText("POP: " + data.get("day3_pop") + "%");
+		if ( Integer.parseInt(data.get(day3 + "_pop")) > minPOP ){
+			day3POP.setText("POP: " + data.get(day3 + "_pop") + "%");
 		} else {
 			day3POP.setText("");
 		}
 		
-		if ( Integer.parseInt(data.get("day4_pop")) > minPOP ){
-			day4POP.setText("POP: " + data.get("day4_pop") + "%");
+		if ( Integer.parseInt(data.get(day4 + "_pop")) > minPOP ){
+			day4POP.setText("POP: " + data.get(day4 + "_pop") + "%");
 		} else {
 			day4POP.setText("");
 		}
 		
-		if ( Integer.parseInt(data.get("day5_pop")) > minPOP ){
-			day5POP.setText("POP: " + data.get("day5_pop") + "%");
+		if ( Integer.parseInt(data.get(day5 + "_pop")) > minPOP ){
+			day5POP.setText("POP: " + data.get(day5 + "_pop") + "%");
 		} else {
 			day5POP.setText("");
 		}
@@ -345,23 +363,23 @@ public class MainActivity extends Activity {
 		// set day condition graphic
 		ImageView day1Cond = (ImageView) findViewById(R.id.forecastDay1Graphic);
 		day1Cond.setImageResource(getResources().getIdentifier(
-				data.get("day1_cond"), "drawable", getPackageName()));
+				data.get(day1 + "_cond"), "drawable", getPackageName()));
 
 		ImageView day2Cond = (ImageView) findViewById(R.id.forecastDay2Graphic);
 		day2Cond.setImageResource(getResources().getIdentifier(
-				data.get("day2_cond"), "drawable", getPackageName()));
+				data.get(day2 + "_cond"), "drawable", getPackageName()));
 
 		ImageView day3Cond = (ImageView) findViewById(R.id.forecastDay3Graphic);
 		day3Cond.setImageResource(getResources().getIdentifier(
-				data.get("day3_cond"), "drawable", getPackageName()));
+				data.get(day3 + "_cond"), "drawable", getPackageName()));
 
 		ImageView day4Cond = (ImageView) findViewById(R.id.forecastDay4Graphic);
 		day4Cond.setImageResource(getResources().getIdentifier(
-				data.get("day4_cond"), "drawable", getPackageName()));
+				data.get(day4 + "_cond"), "drawable", getPackageName()));
 
 		ImageView day5Cond = (ImageView) findViewById(R.id.forecastDay5Graphic);
 		day5Cond.setImageResource(getResources().getIdentifier(
-				data.get("day5_cond"), "drawable", getPackageName()));
+				data.get(day5 + "_cond"), "drawable", getPackageName()));
 
 	}
 

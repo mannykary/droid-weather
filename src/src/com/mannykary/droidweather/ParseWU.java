@@ -679,6 +679,8 @@ public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 				dayNight = "night";
 			}
 			
+			data.put("current_time_hour", current_time_obj.getString("hour"));
+			data.put("current_time_min", current_time_obj.getString("minute"));
 			data.put("day_night", dayNight);
 			
 			Conditions cName = getCondEnum(current_observation_obj.getString("weather"), dayNight);
@@ -698,7 +700,7 @@ public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 			JSONArray forecastday_arr = simpleforecast_obj.getJSONArray("forecastday");
 			
 			// change i depending of number of days in forecast.
-			for( int i = 0; i < 5; i++ ){
+			for( int i = 0; i < 6; i++ ){
 				int j = i + 1;
 				data.put("day" + j + "_high_c" , forecastday_arr.getJSONObject(i).getJSONObject("high").getString("celsius"));
 				data.put("day" + j + "_low_c" , forecastday_arr.getJSONObject(i).getJSONObject("low").getString("celsius"));
