@@ -381,6 +381,7 @@
         </RelativeLayout>
     </LinearLayout>
 
+    <!-- 
     <Button
         android:id="@+id/btnSearch"
         android:layout_width="wrap_content"
@@ -389,5 +390,6 @@
         android:layout_alignParentRight="true"
         android:onClick="searchLocation"
         android:text="Search" />
-
+ 	-->
+ 	
 </RelativeLayout>
