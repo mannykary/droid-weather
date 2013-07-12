@@ -71,6 +71,9 @@ public class MainActivity extends Activity {
 				+ "/astronomy" + query;
 		String URLForecast = "http://api.wunderground.com/api/" + API_KEY
 				+ "/forecast10day" + query;
+		
+		String URLForecastHourly = "http://api.wunderground.com/api/" + API_KEY
+				+ "/hourly10day" + query;
 
 		String JSONRequestCond = null;
 		try {
@@ -106,12 +109,24 @@ public class MainActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		String JSONRequestForecastHourly = null;
+		try {
+			JSONRequestForecastHourly = new JSONReaderTask().execute(URLForecastHourly)
+					.get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		data = null;
 
 		try {
 			data = new ParseWU().execute(JSONRequestCond, JSONRequestAstronomy,
-					JSONRequestForecast).get();
+					JSONRequestForecast, JSONRequestForecastHourly).get();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

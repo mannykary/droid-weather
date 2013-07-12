@@ -566,6 +566,11 @@ public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 
 	@Override
 	protected HashMap<String, String> doInBackground(String... params) {
+		//params[0]: Current Conditions
+		//params[1]: Astronomy (sunrise/sunset)
+		//params[2]: 10 Day Forecast
+		//params[3]: Hourly Forecast
+		
 		//String URLConditions = baseURL + "conditions" + params[0];
 		//String URLAstronomy = baseURL + "astronomy" + params[0];
 		HashMap<String, String> data = new HashMap<String, String>();
@@ -721,6 +726,41 @@ public class ParseWU extends AsyncTask<String, Void, HashMap<String, String>> {
 				Log.i(ParseWU.class.getName(), "day" + j + "_cond: " + forecastday_arr.getJSONObject(i).getString("conditions"));
 				Log.i(ParseWU.class.getName(), "day" + j + "_pop: " + forecastday_arr.getJSONObject(i).getString("pop"));
 			}
+			
+			// extract next 24 hours forecast
+			JSONObject forecastHourlyObject = new JSONObject(params[3]);
+			
+			JSONArray hourly_forecast_arr = forecastHourlyObject.getJSONArray("hourly_forecast");
+			
+			for( int i = 0; i < 24; i++ ){
+				data.put("hour" + i + "_h", hourly_forecast_arr.getJSONObject(i).getJSONObject("FCTTIME").getString("hour"));
+				data.put("hour" + i + "_temp_c", hourly_forecast_arr.getJSONObject(i).getJSONObject("temp").getString("metric"));
+				data.put("hour" + i + "_temp_f", hourly_forecast_arr.getJSONObject(i).getJSONObject("temp").getString("english"));
+				data.put("hour" + i + "_cond", hourly_forecast_arr.getJSONObject(i).getString("condition"));
+				data.put("hour" + i + "_wind_m", hourly_forecast_arr.getJSONObject(i).getJSONObject("wspd").getString("metric"));
+				data.put("hour" + i + "_wind_e", hourly_forecast_arr.getJSONObject(i).getJSONObject("wspd").getString("english"));
+				data.put("hour" + i + "_dir", hourly_forecast_arr.getJSONObject(i).getJSONObject("wdir").getString("dir"));
+				data.put("hour" + i + "_uvi", hourly_forecast_arr.getJSONObject(i).getString("uvi"));
+				data.put("hour" + i + "_humidity", hourly_forecast_arr.getJSONObject(i).getString("humidity"));
+				data.put("hour" + i + "_feelslike_c", hourly_forecast_arr.getJSONObject(i).getJSONObject("feelslike").getString("metric"));
+				data.put("hour" + i + "_feelslike_f", hourly_forecast_arr.getJSONObject(i).getJSONObject("feelslike").getString("english"));
+				data.put("hour" + i + "_pop", hourly_forecast_arr.getJSONObject(i).getString("pop"));
+				
+				Log.i(ParseWU.class.getName(), "Hour " + i);
+				Log.i(ParseWU.class.getName(), "Hour: " + data.get("hour" + i + "_h").toString());
+				Log.i(ParseWU.class.getName(), "Temp C: " + data.get("hour" + i + "_temp_c").toString());
+				Log.i(ParseWU.class.getName(), "Temp F: " + data.get("hour" + i + "_temp_f").toString());
+				Log.i(ParseWU.class.getName(), "Condition: " + data.get("hour" + i + "_cond").toString());
+				Log.i(ParseWU.class.getName(), "Wind (kph): " + data.get("hour" + i + "_wind_m").toString());
+				Log.i(ParseWU.class.getName(), "Wind (mph): " + data.get("hour" + i + "_wind_e").toString());
+				Log.i(ParseWU.class.getName(), "Wind dir: " + data.get("hour" + i + "_dir").toString());
+				Log.i(ParseWU.class.getName(), "UV Index: " + data.get("hour" + i + "_uvi").toString());
+				Log.i(ParseWU.class.getName(), "Humidity: " + data.get("hour" + i + "_humidity").toString());
+				Log.i(ParseWU.class.getName(), "Feels Like C: " + data.get("hour" + i + "_feelslike_c").toString());
+				Log.i(ParseWU.class.getName(), "Feels Like F: " + data.get("hour" + i + "_feelslike_f").toString());
+				Log.i(ParseWU.class.getName(), "P.O.P.: " + data.get("hour" + i + "_pop").toString());
+			}
+			
 			
 		
 		} catch (Exception e) {
