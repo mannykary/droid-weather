@@ -117,19 +117,26 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="20sp" />
 
-    <LinearLayout
-        android:id="@+id/forecastLayout"
+    <HorizontalScrollView
+        android:id="@+id/forecastScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/UV"
+        android:fillViewport="true">
+        
+    <LinearLayout
+        android:id="@+id/forecastLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:baselineAligned="false" >
 
         <RelativeLayout
             android:id="@+id/forecastDay1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center_vertical"            
             android:layout_weight="1" >
 
             <TextView
@@ -146,7 +153,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/forecastDay1Name"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/ic_launcher"
+                android:clickable="true"
+        		android:onClick="toggleUnits" />
 
             <TextView
                 android:id="@+id/forecastDay1High"
@@ -380,7 +389,7 @@
                 android:textSize="12sp" />
         </RelativeLayout>
     </LinearLayout>
-
+</HorizontalScrollView>
     <!-- 
     <Button
         android:id="@+id/btnSearch"
