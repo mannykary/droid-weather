@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.http.client.HttpClient;
-import com.mannykary.droidweather.R;
 import com.mannykary.droidweather.ParseWU.Conditions;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 
 	// TODO clean up UI
 
@@ -179,21 +179,22 @@ public class MainActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+		//return true;
+		return super.onCreateOptionsMenu(menu);
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
 	    switch (item.getItemId()) {
-	        case R.id.search:
+	        case R.id.action_search:
 	        	Intent intent = new Intent(this, SearchActivity.class);
 	    		startActivity(intent);
 	    		//finish();
 	            return true;
-	        //case R.id.help:
-	        //    showHelp();
-	        //    return true;
+	        case R.id.action_settings:
+	            //openSettings(); // TODO implement settings menu.
+	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
