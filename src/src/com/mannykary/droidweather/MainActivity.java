@@ -230,8 +230,9 @@ public class MainActivity extends ActionBarActivity {
 		TextView humidityText = (TextView) findViewById(R.id.currentHumidity);
 		humidityText.setText(data.get("humidity"));
 
-		TextView locationText = (TextView) findViewById(R.id.currentLocation);
-		locationText.setText(data.get("location"));
+		//TextView locationText = (TextView) findViewById(R.id.currentLocation);
+		getSupportActionBar().setTitle(data.get("location"));
+		//locationText.setText(data.get("location"));
 
 		TextView UVText = (TextView) findViewById(R.id.UV);
 		UVText.setText(data.get("UV"));

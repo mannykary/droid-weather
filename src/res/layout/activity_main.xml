@@ -20,6 +20,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="12sp" />
 
+    <!-- 
     <TextView
         android:id="@+id/currentLocation"
         android:layout_width="wrap_content"
@@ -29,7 +30,8 @@
         android:text="Current Location"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="20sp" />
-
+	-->
+	
     <TextView
         android:id="@+id/UV"
         android:layout_width="wrap_content"
@@ -64,7 +66,7 @@
         android:id="@+id/observationLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/currentLocation"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:text="Observation Location"
         android:textAppearance="?android:attr/textAppearanceLarge"
