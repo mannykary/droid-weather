@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
 	String query;
 	String units;
 
-	public static final String API_KEY = "b40d28a40f580244";
+	public static final String API_KEY = "86509accc78ae0a6";
 	public static final String PREFS_NAME = "MyPrefsFile";
 
 	static final String CURRENT_QUERY = "currentQuery";
